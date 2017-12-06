@@ -333,7 +333,10 @@ abstract class AbstractValidator extends AbstractValidatorExtbase
                 }
                 break;
 
-            default:
+	        default:
+		        $date = \DateTime::createFromFormat($validationSetting, $value);
+		        return $date && $date->format($validationSetting) == $value;
+
         }
         return false;
     }
