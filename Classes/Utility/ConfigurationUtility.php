@@ -53,6 +53,7 @@ class ConfigurationUtility extends AbstractUtility
      *
      * @param string $path "misc.uploadFolder" or empty for complete TypoScript array
      * @return string
+     * @codeCoverageIgnore
      */
     public static function getConfiguration(string $path = '')
     {
@@ -70,11 +71,23 @@ class ConfigurationUtility extends AbstractUtility
 
     /**
      * @return bool
+     * @codeCoverageIgnore
      */
     public static function isBackendModuleFilterUserConfirmation(): bool
     {
         return BackendUserUtility::getBackendUserAuthentication()->getTSConfigVal(
             'tx_femanager.UserBackend.confirmation.filter.userConfirmation'
+        ) === '1';
+    }
+
+    /**
+     * @return bool
+     * @codeCoverageIgnore
+     */
+    public static function IsResendUserConfirmationRequestActive(): bool
+    {
+        return BackendUserUtility::getBackendUserAuthentication()->getTSConfigVal(
+            'tx_femanager.UserBackend.confirmation.ResendUserConfirmationRequest'
         ) === '1';
     }
 }
