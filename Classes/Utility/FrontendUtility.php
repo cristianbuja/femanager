@@ -5,6 +5,8 @@ namespace In2code\Femanager\Utility;
 use In2code\Femanager\Domain\Model\User;
 use In2code\Femanager\Domain\Model\UserGroup;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Web\RequestBuilder;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Class FrontendUtility
@@ -108,14 +110,9 @@ class FrontendUtility extends AbstractUtility
      */
     public static function getControllerName(): string
     {
-        $controllerName = '';
-        foreach (self::$pluginNames as $pluginName) {
-            $variables = GeneralUtility::_GPmerged($pluginName);
-            if (!empty($variables['controller'])) {
-                $controllerName = $variables['controller'];
-            }
-        }
-        return $controllerName;
+        return GeneralUtility::makeInstance(ObjectManager::class)
+            ->get(RequestBuilder::class)->build()
+            ->getControllerName();
     }
 
     /**
@@ -123,13 +120,8 @@ class FrontendUtility extends AbstractUtility
      */
     public static function getActionName(): string
     {
-        $actionName = '';
-        foreach (self::$pluginNames as $pluginName) {
-            $variables = GeneralUtility::_GPmerged($pluginName);
-            if (!empty($variables['action'])) {
-                $actionName = $variables['action'];
-            }
-        }
-        return $actionName;
+        return GeneralUtility::makeInstance(ObjectManager::class)
+            ->get(RequestBuilder::class)->build()
+            ->getControllerActionName();
     }
 }
